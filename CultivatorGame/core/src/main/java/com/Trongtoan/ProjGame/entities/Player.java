@@ -26,7 +26,7 @@ public class Player {
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
         sprite.setSize(64, 64);
-        position = new Vector2(100, 300); // bắt đầu ở giữa trời để rơi xuống
+        position = new Vector2(100  , 300); // bắt đầu ở giữa trời để rơi xuống
         velocity = new Vector2(0, 0);
         bounds = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
         this.groundRects = groundRects;
@@ -90,6 +90,10 @@ public class Player {
         position.set(newPos);
         bounds.setPosition(position);
         sprite.setPosition(position.x, position.y);
+    }
+
+    public void setSize(float width, float height) {
+        sprite.setSize(width, height);
     }
 
     public void draw(SpriteBatch batch) {

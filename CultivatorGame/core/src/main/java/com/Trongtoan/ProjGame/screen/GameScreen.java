@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameScreen implements Screen {
+
     private final Main game;
     private SpriteBatch batch;
     private OrthographicCamera camera;
@@ -29,6 +30,8 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer mapRenderer;
     private List<Rectangle> groundRects;
     private int mapWidth, mapHeight;
+    private String currentMapFile;
+
     public GameScreen(Main game) {
         this.game = game;
     }
@@ -36,12 +39,12 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
+
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1200, 800);
 
         map = new TmxMapLoader().load("Map1/Map1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
-
+        camera.setToOrtho(false, 1200, 800);
         groundRects = new ArrayList<>();
         MapLayer groundLayer = map.getLayers().get("Ground");
         if (groundLayer != null) {
@@ -52,6 +55,7 @@ public class GameScreen implements Screen {
             }
         }
 
+//        changeMap("Map3/Map3.tmx", 100, 300);
         player = new Player(groundRects);
     }
 
@@ -104,6 +108,7 @@ public class GameScreen implements Screen {
     }
 
     public void changeMap(String mapFile,float spawnX, float spawnY ){
+        currentMapFile = mapFile;
         if(map!=null)map.dispose();
         if(mapRenderer!=null)mapRenderer.dispose();
 
@@ -117,6 +122,8 @@ public class GameScreen implements Screen {
          mapWidth = tileWidth * width;
          mapHeight = tileHeight * height;
 
+
+
         groundRects.clear();
         MapLayer groundLayer = map.getLayers().get("Ground");
         if (groundLayer != null) {
@@ -129,6 +136,14 @@ public class GameScreen implements Screen {
         // Cập nhật lại Player và vị trí spawn
         player = new Player(groundRects);
         player.setPosition(spawnX, spawnY);
+
+        if (mapFile.contains("Map3")) {
+            player.setSize(128, 128);
+            camera.setToOrtho(false, 2400, 1400);
+        } else {
+            player.setSize(64, 64);
+            camera.setToOrtho(false, 1200, 800);
+        }
 
         // Cập nhật camera theo vị trí mới
         camera.position.set(spawnX, spawnY, 0);

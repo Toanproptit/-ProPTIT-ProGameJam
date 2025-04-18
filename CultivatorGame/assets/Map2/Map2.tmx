@@ -12,10 +12,10 @@
   <object id="3" x="1193.59" y="0" width="5.96298" height="601.267"/>
  </objectgroup>
  <objectgroup id="3" name="Portal">
-  <object id="4" x="1144.89" y="498.903" width="45.7162" height="100.377">
+  <object id="4" name="Portal" x="1144.89" y="498.903" width="45.7162" height="100.377">
    <properties>
-    <property name="SpawnX" type="float" value="100"/>
-    <property name="SpawnY" type="float" value="300"/>
+    <property name="spawnX" type="float" value="100"/>
+    <property name="spawnY" type="float" value="300"/>
     <property name="toMap" value="Map3/Map3.tmx"/>
    </properties>
   </object>
