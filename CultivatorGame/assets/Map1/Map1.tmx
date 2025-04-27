@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="65" height="41" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="38">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="65" height="41" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="79">
  <tileset firstgid="1" source="FWVSy5.tsx"/>
  <imagelayer id="2" name="Background" offsetx="1" offsety="0">
   <image source="FWVSy5.jpg" width="2064" height="1296"/>
@@ -10,24 +10,24 @@
   </data>
  </layer>
  <objectgroup id="4" name="Ground">
-  <object id="4" x="1" y="576" width="334" height="64"/>
-  <object id="5" x="1" y="719" width="528" height="75"/>
-  <object id="6" x="241" y="863" width="141" height="59"/>
-  <object id="9" x="-1" y="960" width="145" height="74"/>
-  <object id="10" x="0" y="1102" width="239" height="97"/>
+  <object id="4" x="1" y="576" width="330.555" height="29.5472"/>
+  <object id="5" x="1" y="719" width="528" height="28.4888"/>
+  <object id="6" x="241" y="863" width="141" height="33.1604"/>
+  <object id="9" x="-1" y="960" width="145" height="37.8246"/>
+  <object id="10" x="0" y="1102" width="239" height="31.5397"/>
   <object id="11" x="237" y="1198" width="148" height="52"/>
-  <object id="12" x="1" y="1248" width="2078" height="63"/>
+  <object id="12" x="2.72264" y="1248" width="2078" height="63"/>
   <object id="13" x="478" y="1057" width="1011" height="28"/>
   <object id="14" x="1297" y="1198" width="110" height="48"/>
-  <object id="15" x="1392" y="1153" width="302" height="44"/>
-  <object id="16" x="1681" y="1055" width="210" height="49"/>
-  <object id="17" x="1874" y="911" width="64" height="51"/>
-  <object id="18" x="1774" y="769" width="168" height="51"/>
+  <object id="15" x="1392" y="1153" width="302" height="23.3283"/>
+  <object id="16" x="1681" y="1055" width="210" height="24.8831"/>
+  <object id="17" x="1874" y="911" width="177.694" height="35.4963"/>
+  <object id="18" x="1774" y="769" width="274.804" height="33.7736"/>
   <object id="19" x="1489" y="942.667" width="143" height="46"/>
-  <object id="20" x="1201" y="718" width="192" height="50"/>
-  <object id="21" x="1489" y="624" width="450" height="74"/>
-  <object id="22" x="718.667" y="864" width="533.333" height="61.3333"/>
-  <object id="26" x="606.667" y="765.333" width="98.6667" height="32"/>
+  <object id="20" x="1201" y="718" width="192" height="29.3283"/>
+  <object id="21" x="1490.72" y="627.445" width="556.804" height="39.5472"/>
+  <object id="22" x="718.667" y="864" width="533.333" height="40.6616"/>
+  <object id="26" x="606.667" y="765.333" width="98.6667" height="18.2189"/>
   <object id="31" x="1.72264" y="0" width="10.3358" height="1257.53"/>
   <object id="32" x="2051.66" y="1.72264" width="10.3358" height="1250.64"/>
   <object id="33" x="13.7811" y="3.44528" width="2032.71" height="1.72264"/>
@@ -38,6 +38,120 @@
     <property name="spawnX" type="float" value="100"/>
     <property name="spawnY" type="float" value="300"/>
     <property name="toMap" value="Map2/Map2.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="Monster">
+  <object id="38" name="Monster" x="609.814" y="1155.89" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="54" name="Monster" x="895.772" y="1155.89" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="55" name="Monster" x="1111.1" y="1150.72" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="5"/>
+    <property name="respawnTime" type="float" value="100"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="56" name="Monster" x="614.981" y="962.954" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="71" name="Monster" x="792.413" y="764.851" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="72" name="Monster" x="1047.36" y="766.573" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="73" name="Monster" x="1290.26" y="623.594" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="74" name="Monster" x="1732.97" y="525.404" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="75" name="Monster" x="394.483" y="627.039" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="78" name="Monster" x="275.621" y="766.573" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="76" name="Monster" x="215.329" y="482.338" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="57" name="Monster" x="906.107" y="964.677" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="58" name="Monster" x="1217.91" y="959.509" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
+   </properties>
+  </object>
+  <object id="64" name="Monster" x="1540.04" y="1055.98" width="77.5187" height="93.0225">
+   <properties>
+    <property name="hp" type="float" value="100"/>
+    <property name="respawnTime" type="float" value="5"/>
+    <property name="texture" value="Monster/monster.png"/>
+    <property name="type" value="monster"/>
    </properties>
   </object>
  </objectgroup>

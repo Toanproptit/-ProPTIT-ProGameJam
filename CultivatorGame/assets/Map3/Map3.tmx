@@ -23,6 +23,12 @@
   <object id="10" x="6514" y="0" width="12" height="1972"/>
  </objectgroup>
  <objectgroup id="6" name="Portal">
-  <object id="13" x="6370" y="1696" width="136" height="216"/>
+  <object id="13" x="6370" y="1698" width="136" height="216">
+   <properties>
+    <property name="spawnX" type="float" value="100"/>
+    <property name="spawnY" type="float" value="300"/>
+    <property name="toMap" value="Map4/Map4.tmx"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -10,7 +10,6 @@ public class Lwjgl3Launcher {
         config.setTitle("Cultivator's Dread");
         config.setWindowedMode(1200, 800); // Đổi kích thước nếu muốn
         config.useVsync(true);
-
         new Lwjgl3Application(new Main(), config);
     }
 }

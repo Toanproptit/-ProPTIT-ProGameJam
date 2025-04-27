@@ -1,6 +1,7 @@
 package com.Trongtoan.ProjGame.screen;
 
 import com.Trongtoan.ProjGame.Main;
+import com.Trongtoan.ProjGame.entities.Monster;
 import com.Trongtoan.ProjGame.entities.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -26,11 +27,14 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private Player player;
+    private Monster monster;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private List<Rectangle> groundRects;
     private int mapWidth, mapHeight;
     private String currentMapFile;
+    private List<Monster> monsters;
+
 
     public GameScreen(Main game) {
         this.game = game;
@@ -42,9 +46,10 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
 
-        map = new TmxMapLoader().load("Map1/Map1.tmx");
+        map = new TmxMapLoader().load("Home/Home.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
-        camera.setToOrtho(false, 1200, 800);
+        camera.setToOrtho(false, 3000, 1800);
+
         groundRects = new ArrayList<>();
         MapLayer groundLayer = map.getLayers().get("Ground");
         if (groundLayer != null) {
@@ -54,9 +59,8 @@ public class GameScreen implements Screen {
                 }
             }
         }
-
-//        changeMap("Map3/Map3.tmx", 100, 300);
         player = new Player(groundRects);
+        monsters = new ArrayList<>();
     }
 
     @Override
@@ -85,6 +89,11 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         player.draw(batch);
+
+        for(Monster monster: monsters){
+            monster.update(delta);
+            monster.draw(batch);
+        }
         batch.end();
     }
 
@@ -138,10 +147,26 @@ public class GameScreen implements Screen {
         player.setPosition(spawnX, spawnY);
 
         if (mapFile.contains("Map3")) {
-            player.setSize(128, 128);
+            monsters = new ArrayList<>();
+            player.setSize(120, 120);
+            player.setSpeed(800f);
             camera.setToOrtho(false, 2400, 1400);
-        } else {
+        }
+        else if(mapFile.contains("Map4")){
+            monsters = new ArrayList<>();
+            player.setSize(100, 100);
+            player.setSpeed(400f);
+            camera.setToOrtho(false, 1600, 1200);
+        }else if(mapFile.contains("Map1")) {
+            loadMonster();
             player.setSize(64, 64);
+            player.setSpeed(400f);
+            camera.setToOrtho(false, 1200, 800);
+        }
+        else{
+            monsters = new ArrayList<>();
+            player.setSize(64, 64);
+            player.setSpeed(400f);
             camera.setToOrtho(false, 1200, 800);
         }
 
@@ -151,6 +176,28 @@ public class GameScreen implements Screen {
 
         // Nếu dùng batch riêng thì cập nhật lại projection matrix
         batch.setProjectionMatrix(camera.combined);
+    }
+
+    private void loadMonster(){
+        MapLayer monsterLayer = map.getLayers().get("Monster");
+        if (monsterLayer != null) {
+            for (MapObject obj : monsterLayer.getObjects()) {
+                if (obj instanceof RectangleMapObject) {
+                    Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                    try {
+                        String type = obj.getProperties().get("type", String.class);
+                        String texture = obj.getProperties().get("texture", String.class);
+                        float hp = obj.getProperties().get("hp", Float.class);
+                        float respawn = obj.getProperties().get("respawnTime", Float.class);
+
+                        Vector2 spawnPos = new Vector2(rect.x, rect.y);
+                        monsters.add(new Monster(type, texture, hp, respawn, spawnPos));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     @Override public void resize(int width, int height) {}
