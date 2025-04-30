@@ -1,9 +1,8 @@
 package com.Trongtoan.ProjGame.entities;
 
+import com.Trongtoan.ProjGame.animation.PlayerAnimationManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -11,12 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.List;
 
 public class Player {
-    private Texture texture;
-    private Sprite sprite;
     private Vector2 position;
     private Vector2 velocity;
     private Rectangle bounds;
-    private float speed = 800f  ;
+    private float speed = 800f;
     private boolean onGround = false;
     private float gravity = 900f;
     private float flypower = 500f;
@@ -25,17 +22,28 @@ public class Player {
     private float yVelocity = 0;
     private float preJumpHeight = 0;
 
+    private float currentHp;
+    private float maxHp;
+    private float currentMp;
+    private float maxMp;
 
+    private boolean flipX = false;
+    private final PlayerAnimationManager animationRun = new PlayerAnimationManager("Player/Player_run.png");
     private final List<Rectangle> groundRects;
 
+    private float scale = 0.9f;
+
     public Player(List<Rectangle> groundRects) {
-        texture = new Texture(Gdx.files.internal("Player/player.png"));
-        sprite = new Sprite(texture);
-        sprite.setSize(128, 128);
-        position = new Vector2(100  , 500); // bắt đầu ở giữa trời để rơi xuống
+        animationRun.setScale(scale);
+
+        position = new Vector2(100, 500); // bắt đầu ở giữa trời để rơi xuống
         velocity = new Vector2(0, 0);
-        bounds = new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
+        bounds = new Rectangle(position.x, position.y, 127 * scale, 201 * scale); // cập nhật theo scale
         this.groundRects = groundRects;
+        this.currentHp = 1000;
+        this.maxHp = 1000;
+        this.currentMp = 1000;
+        this.maxMp = 1000;
     }
 
     public void update(float deltaTime) {
@@ -44,21 +52,26 @@ public class Player {
         boolean pressingUp = Gdx.input.isKeyPressed(Input.Keys.W);
 
         float moveX = 0;
+        boolean isMoving = pressingLeft || pressingRight;
 
-        if (pressingLeft ){
+        if (isMoving && !isflying) {
+            animationRun.update(deltaTime);
+        } else {
+            animationRun.reset();
+        }
+
+        if (pressingLeft) {
             moveX = -speed;
+            flipX = true;
         }
         if (pressingRight) {
             moveX = speed;
+            flipX = false;
         }
-
-        // Lật hướng mặt nhân vật
-        if (pressingLeft && sprite.isFlipX()) sprite.flip(true, false);
-        if (pressingRight && !sprite.isFlipX()) sprite.flip(true, false);
 
         // Jumping (nro-style)
         if (isJumping) {
-            position = new Vector2(position.x, position.y + yVelocity*deltaTime);
+            position = new Vector2(position.x, position.y + yVelocity * deltaTime);
 
             if (position.y < preJumpHeight) {
                 yVelocity += gravity * deltaTime;
@@ -125,51 +138,34 @@ public class Player {
         }
 
         position.set(newPos);
-        bounds.setPosition(position);
-        sprite.setPosition(position.x, position.y);
+        bounds.set(position.x, position.y, animationRun.getScaledWidth(), animationRun.getScaledHeight()); // cập nhật lại bounds mỗi frame
     }
-
-//    private float getGroundBelowPlayerY() {
-//        float closestY = Float.NEGATIVE_INFINITY;
-//
-//        for (Rectangle ground : groundRects) {
-//            boolean isBelow = ground.y + ground.height <= position.y;
-//            boolean isHorizontallyAligned =
-//                position.x >= ground.x && position.x <= ground.x + ground.width;
-//
-//            if (isBelow && isHorizontallyAligned) {
-//                if (ground.y + ground.height > closestY) {
-//                    closestY = ground.y + ground.height;
-//                }
-//            }
-//        }
-//
-//        return closestY; // hoặc trả về -1 nếu không có ground bên dưới
-//    }
 
     public void updateBounds() {
-        bounds.set(position.x, position.y, sprite.getWidth(), sprite.getHeight());
+        bounds.set(position.x, position.y, animationRun.getScaledWidth(), animationRun.getScaledHeight());
     }
 
-    public void setSize(float width, float height) {
-        sprite.setSize(width, height);
+    public void setSize(float scale) {
+        this.scale = scale;
+        animationRun.setScale(scale);
         updateBounds();
     }
-    public void setSpeed(float speed){
+
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
+
     public void draw(SpriteBatch batch) {
-        sprite.draw(batch);
+        animationRun.draw(batch, position.x, position.y, flipX);
     }
 
     public Vector2 getPosition() {
-        return position; //cam đi theo
+        return position;
     }
 
     public void setPosition(float x, float y) {
         position.set(x, y);
         bounds.setPosition(position);
-        sprite.setPosition(x, y);
     }
 
     public Rectangle getBounds() {
@@ -177,6 +173,38 @@ public class Player {
     }
 
     public void dispose() {
-        texture.dispose();
+        animationRun.dispose();
+    }
+
+    public float getCurrentMp() {
+        return currentMp;
+    }
+
+    public float getMaxHp() {
+        return maxHp;
+    }
+
+    public float getMaxMp() {
+        return maxMp;
+    }
+
+    public float getCurrentHp() {
+        return currentHp;
+    }
+
+    public void setCurrentMp(float currentMp) {
+        this.currentMp = currentMp;
+    }
+
+    public void setMaxHp(float maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public void setCurrentHp(float currentHp) {
+        this.currentHp = currentHp;
+    }
+
+    public void setMaxMp(float maxMp) {
+        this.maxMp = maxMp;
     }
 }

@@ -16,7 +16,7 @@
    <properties>
     <property name="spawnX" type="float" value="100"/>
     <property name="spawnY" type="float" value="300"/>
-    <property name="toMap" value="Map3/Map3.tmx"/>
+    <property name="toMap" value="Map/Map3/Map3.tmx"/>
    </properties>
   </object>
  </objectgroup>
