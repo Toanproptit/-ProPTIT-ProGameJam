@@ -5,9 +5,13 @@ import com.Trongtoan.ProjGame.entities.Monster;
 import com.Trongtoan.ProjGame.entities.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -17,6 +21,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +30,7 @@ public class GameScreen implements Screen {
 
     private final Main game;
     private SpriteBatch batch;
+    private BitmapFont font;
     private OrthographicCamera camera;
     private Player player;
     private Monster monster;
@@ -34,6 +40,8 @@ public class GameScreen implements Screen {
     private int mapWidth, mapHeight;
     private String currentMapFile;
     private List<Monster> monsters;
+    private OrthographicCamera hudCamera;
+
 
 
     public GameScreen(Main game) {
@@ -43,10 +51,14 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
+        font = new BitmapFont();
+
+        hudCamera = new OrthographicCamera();
+        hudCamera.setToOrtho(false,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         camera = new OrthographicCamera();
 
-        map = new TmxMapLoader().load("Home/Home.tmx");
+        map = new TmxMapLoader().load("Map/Home/Home.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
         camera.setToOrtho(false, 3000, 1800);
 
@@ -71,6 +83,13 @@ public class GameScreen implements Screen {
         checkPortalCollision();
         Vector2 playerPos = player.getPosition();
 
+
+        if(Gdx.input.justTouched()){
+            Vector3 touch = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+            camera.unproject(touch);
+            checkClickOnMonster(touch.x,touch.y);
+        }
+
         int tileWidth = map.getProperties().get("tilewidth", Integer.class);
         int tileHeight = map.getProperties().get("tileheight", Integer.class);
         int width = map.getProperties().get("width", Integer.class);
@@ -82,19 +101,39 @@ public class GameScreen implements Screen {
         float camY = MathUtils.clamp(playerPos.y, camera.viewportHeight / 2f, mapHeight - camera.viewportHeight / 2f);
         camera.position.set(camX, camY, 0);
         camera.update();
+        hudCamera.update();
 
+
+        batch.setProjectionMatrix(camera.combined);
         mapRenderer.setView(camera);
         mapRenderer.render();
 
-        batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
         player.draw(batch);
 
         for(Monster monster: monsters){
             monster.update(delta);
             monster.draw(batch);
+            monster.drawInfo(batch,font);
         }
         batch.end();
+
+        batch.setProjectionMatrix(hudCamera.combined);
+        batch.begin();
+        drawPlayerStats(batch, font);
+        batch.end();
+    }
+
+    private void checkClickOnMonster(float touchX,float touchY){
+        for(Monster monster: monsters){
+            if(monster.getBounds().contains(touchX,touchY)){
+                monster.setSelected(true);// chọn quái click vào
+            }
+            else {
+                monster.setSelected(false); // không phải thì đánh dấu chưa được chọn
+            }
+        }
     }
 
     private void checkPortalCollision(){
@@ -148,24 +187,24 @@ public class GameScreen implements Screen {
 
         if (mapFile.contains("Map3")) {
             monsters = new ArrayList<>();
-            player.setSize(120, 120);
+            player.setSize(0.5f);
             player.setSpeed(800f);
             camera.setToOrtho(false, 2400, 1400);
         }
         else if(mapFile.contains("Map4")){
             monsters = new ArrayList<>();
-            player.setSize(100, 100);
+            player.setSize(0.9f);
             player.setSpeed(400f);
             camera.setToOrtho(false, 1600, 1200);
         }else if(mapFile.contains("Map1")) {
             loadMonster();
-            player.setSize(64, 64);
+            player.setSize(0.3f);
             player.setSpeed(400f);
             camera.setToOrtho(false, 1200, 800);
         }
         else{
             monsters = new ArrayList<>();
-            player.setSize(64, 64);
+            player.setSize(0.9f);
             player.setSpeed(400f);
             camera.setToOrtho(false, 1200, 800);
         }
@@ -198,6 +237,40 @@ public class GameScreen implements Screen {
                 }
             }
         }
+    }
+
+    public void drawPlayerStats(SpriteBatch batch, BitmapFont font){
+        float hpPercent = player.getCurrentHp()/ player.getMaxHp(); // Phần trăm hp:))
+        float mpPercent = player.getCurrentMp()/ player.getMaxMp(); // Phần trăm mp , cái giá của việc ngu tiếng anh@@
+
+        float barWidth = 200; // chiều dài thanh
+        float barHeight = 20; // chiều cao mốĩ thanh
+
+        float x = 20;
+        float y = Gdx.graphics.getHeight() - 50;
+
+        batch.end();
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled); // filled vẽ hình đặc, line vẽ viền, point vẽ từng chấm :v
+
+        // Vẽ Khung đen
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.rect(x-2,y-2,barWidth+4,barHeight*2+10);
+        // Vẽ thanh HP màu đỏ
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(x,y,barWidth*hpPercent,barHeight);
+        // Vẽ thanh MP màu  xanh
+        shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.rect(x,y-barHeight-5,barWidth*mpPercent,barHeight);
+
+        shapeRenderer.end();
+        shapeRenderer.dispose();
+
+        batch.begin();
+        font.draw(batch, "HP: " + (int)player.getCurrentHp() + " / " + (int)player.getMaxHp(), x + 10, y + barHeight - 5);
+        font.draw(batch, "MP: " + (int)player.getCurrentMp() + " / " + (int)player.getMaxMp(), x + 10, y - 5);
     }
 
     @Override public void resize(int width, int height) {}

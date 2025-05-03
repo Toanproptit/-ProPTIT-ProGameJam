@@ -1,8 +1,11 @@
 package com.Trongtoan.ProjGame.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -20,6 +23,7 @@ public class Monster {
     private Vector2 velocity;
     private float startX,endX;
     private float speed = 25f;
+    private boolean selected = false;
 
     public Monster(String type, String texturePath, float hp, float respawnTime, Vector2 position) {
         this.type = type;
@@ -68,6 +72,35 @@ public class Monster {
         bounds.set(position.x, position.y, sprite.getWidth(), sprite.getHeight());
     }
 
+    public void drawInfo(SpriteBatch batch, BitmapFont font){
+        if(!selected||!isAlive){
+            return;
+        }
+        float barWidth =100;
+        float barheight=10;
+
+        float barX = position.x + sprite.getWidth()/2 - barWidth/2;
+        float barY = position.y+ sprite.getHeight()+10;
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        batch.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.rect(barX-2,barY-2,barWidth+4,barheight+4);
+
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(barX,barY,barWidth*(hp/maxHp),barheight);
+
+        shapeRenderer.end();
+        shapeRenderer.dispose();
+        batch.begin();
+
+        font.draw(batch,type,barX,barY+25);
+
+    }
+
     public void draw(SpriteBatch batch) {
         if (isAlive) {
             sprite.setPosition(position.x, position.y);
@@ -95,4 +128,13 @@ public class Monster {
     public boolean isAlive() {
         return isAlive;
     }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
 }
