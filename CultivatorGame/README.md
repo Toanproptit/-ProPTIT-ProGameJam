@@ -93,12 +93,12 @@ CultivatorGame/
 * lw3jgl3 Chứa các class để chạy trên các nền tảng desktop
 ## 5 Ảnh và video demo
  Ảnh demo:
-![alt text](README_Anh/Anh1.png)
-![alt text](README_Anh/Anh2.png)
-![alt text](README_Anh/Anh3.png)
-![alt text](README_Anh/Anh4.png)
-![alt text](README_Anh/Anh5.png)
-![alt text](README_Anh/Anh6.png)
+![alt text](README_anh/Anh1.png)
+![alt text](README_anh/Anh2.png)
+![alt text](README_anh/Anh3.png)
+![alt text](README_anh/Anh4.png)
+![alt text](README_anh/Anh5.png)
+![alt text](README_anh/Anh6.png)
  Video demo: [Video](https://youtu.be/TCp_8JqZPzA)
 ## 6 Các vấn đề gặp phải.
 ## Vấn đề 1:
