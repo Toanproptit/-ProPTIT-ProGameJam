@@ -25,28 +25,16 @@ public class LoginScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("uiskin.json")); // skin mặc định của LibGDX
-
-        Label userLabel = new Label("Username:", skin);
-        usernameField = new TextField("", skin);
-
-        Label passLabel = new Label("Password:", skin);
-        passwordField = new TextField("", skin);
-        passwordField.setPasswordCharacter('*');
-        passwordField.setPasswordMode(true);
+        skin = new Skin(Gdx.files.internal("Ui/uiskin.json")); // skin mặc định của LibGDX
 
         loginButton = new TextButton("Login", skin);
-        Image background = new Image(new Texture(Gdx.files.internal("login_bg.png")));
+        Image background = new Image(new Texture(Gdx.files.internal("Ui/login_bg.png")));
         background.setFillParent(true);
         stage.addActor(background);
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String user = usernameField.getText();
-                String pass = passwordField.getText();
-                System.out.println("Login with: " + user + " / " + pass);
 
-                // Sau khi đăng nhập đúng, chuyển sang màn chính
                 game.setScreen(new GameScreen(game));
             }
         });
@@ -55,13 +43,7 @@ public class LoginScreen implements Screen {
         table.setFillParent(true);
         table.center();
 
-        table.add(userLabel);
-        table.add(usernameField).width(200);
-        table.row();
 
-        table.add(passLabel);
-        table.add(passwordField).width(200);
-        table.row();
 
         table.add(loginButton).colspan(2).padTop(10);
 

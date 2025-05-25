@@ -8,8 +8,14 @@ public class Lwjgl3Launcher {
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Cultivator's Dread");
-        config.setWindowedMode(1200, 800); // Đổi kích thước nếu muốn
+        config.setWindowedMode(1200, 800); // Đổ        i kích thước nếu muốn
         config.useVsync(true);
-        new Lwjgl3Application(new Main(), config);      
+        new Lwjgl3Application(new Main(), config);
     }
 }
+
+
+
+
+
+
