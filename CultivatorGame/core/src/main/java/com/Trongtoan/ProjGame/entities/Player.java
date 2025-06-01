@@ -91,7 +91,7 @@ public class Player {
         this.maxMp = 300;
         this.currentHp = 300;
         this.currentMp = 300;
-        this.baseDamage = 10;
+        this.baseDamage = 100;
         // ✅ Cập nhật bounds theo animation thay vì hardcode
         updateBounds();
     }
@@ -568,6 +568,10 @@ public class Player {
         potentialPoints+=amount;
     }
 
+    public void setPotentialPoints(int diem){
+        this.potentialPoints = diem;
+    }
+
     public int getPotentialPoints(){
         return potentialPoints;
     }
@@ -594,10 +598,19 @@ public class Player {
     public void respawn() {
         isDie = false;
         setPosition(position.x, position.y); // hoặc dùng spawnPoint riêng
+
+        maxHp = maxHp/2;
+        maxMp = maxMp/2;
         currentHp = maxHp;
         currentMp = maxMp;
+
+        baseDamage = baseDamage-50;
+        potentialPoints = 0;
+
         System.out.println("Player respawned!");
     }
+
+
 
     public UFO getUfo() {
         return ufo;

@@ -113,7 +113,7 @@ public class MissionManager {
                     completeCurrentMission();
                 }
                 break;
-            case "Kill_demonfly_20":
+            case "kill_demonfly_20":
                 if(player.getDemonflyKilled()>=20){
                     completeCurrentMission();
                 }

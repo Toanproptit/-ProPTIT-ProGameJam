@@ -112,8 +112,7 @@
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             player.update(delta);
-            if (player.isDie() && player.getDeathCount() > 1) {
-                changeMap("Map/Home/Home.tmx", 100, 500); // 👈 quay về map đầu tiên
+            if (player.isDie()) {
                 player.respawn();
                 player.resetDeathCount(); // bạn sẽ tạo thêm hàm này bên dưới
             }
@@ -185,7 +184,7 @@
                         );
                         break;
                     case "kill_boar_30":
-                        missionText = "Training: " + player.getBoarsKilled() + "/30 dummies defeated";
+                        missionText = "Training: " + player.getBoarsKilled() + "/30 minotaur defeated";
                         break;
                     case "reach_stats_map1":
                         missionText = String.format(
@@ -398,11 +397,11 @@
 
                             Vector2 spawnPos = new Vector2(rect.x, rect.y);
                             if("Boss".equalsIgnoreCase(type)){
-                                Boss boss = new Boss(type, hp, respawn, spawnPos, 50f, 300f,1000); // tùy theo boss
+                                Boss boss = new Boss(type, hp, respawn, spawnPos, 50f, 300f,100); // tùy theo boss
                                 monsters.add(boss);
                             }
                             else if("BossM3".equalsIgnoreCase(type)) {
-                                Boss boss = new Boss(type, hp, respawn, spawnPos, 100f, 300f,1000); // tùy theo boss
+                                Boss boss = new Boss(type, hp, respawn, spawnPos, 100f, 300f,150); // tùy theo boss
                                 monsters.add(boss);
                             }
                             else if("final_Boss".equalsIgnoreCase(type)) {
@@ -412,11 +411,11 @@
 
                             else {
                                     if ("minotaur".equalsIgnoreCase(type)) {
-                                        Monster boss = new Monster(type, hp, respawn, spawnPos,20f,50,50);
+                                        Monster boss = new Monster(type, hp, respawn, spawnPos,20f,50,10);
                                         monsters.add(boss);
                                     }
                                     else if("Demonfly".equalsIgnoreCase(type)){
-                                        Monster monster = new Monster(type, hp, respawn, spawnPos,60f,300,50);
+                                        Monster monster = new Monster(type, hp, respawn, spawnPos,60f,300,20);
                                         monsters.add(monster);
                                         if (currentMapFile.contains("Map4")) {
                                             monster.setSize(2.5f);
@@ -429,7 +428,7 @@
                                         monsters.add(doll);
                                     }
                                     else{
-                                        Monster boss = new Monster(type, hp, respawn, spawnPos,40f,200,50);
+                                        Monster boss = new Monster(type, hp, respawn, spawnPos,40f,200,15);
                                         monsters.add(boss);
                                     }
                             }
