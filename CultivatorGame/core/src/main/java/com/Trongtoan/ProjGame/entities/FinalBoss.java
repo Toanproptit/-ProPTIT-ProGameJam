@@ -18,7 +18,7 @@ public class FinalBoss extends Boss {
     private float attackStateTimer = 0f;
 
     public FinalBoss(Vector2 position) {
-        super("final_boss", 5000f, 5f, position, 200f, 500f,10000);
+        super("final_boss", 5000f, 5f, position, 200f, 500f,200);
         getAnimationManager().setScale(BossState.IDLE, 1.5f);
         getAnimationManager().setScale(BossState.WALK, 1.5f);
         getAnimationManager().setScale(BossState.CLEAVE, 1.5f);
